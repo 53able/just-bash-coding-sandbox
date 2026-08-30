@@ -1,0 +1,232 @@
+{
+  "qualityOperation": {
+    "id": "quality",
+    "kind": "test",
+    "command": "Run the reviewed fused quality pipeline",
+    "image": "REPLACE_WITH_IMMUTABLE_IMAGE_AT_SHA256",
+    "scriptSha256": "REPLACE_WITH_EXACT_SCRIPT_SHA256",
+    "sourceTreeSha256": null,
+    "path": [
+      "/usr/local/bin",
+      "/usr/bin",
+      "/bin"
+    ],
+    "requiredTools": [
+      "REPLACE_WITH_REQUIRED_TOOL"
+    ],
+    "resources": {
+      "cpus": 2,
+      "memory": "2G"
+    },
+    "network": "disabled",
+    "timeoutMs": 120000,
+    "oracles": [
+      "REPLACE_WITH_TASK_SPECIFIC_ORACLE"
+    ],
+    "outputs": [
+      {
+        "kind": "evidence",
+        "path": "quality.log"
+      }
+    ],
+    "roleKey": "quality"
+  },
+  "browserPreflightOperation": {
+    "id": "browser-preflight",
+    "kind": "browser-preflight",
+    "command": "Validate the browser runner and task-independent oracle fixture",
+    "image": "REPLACE_WITH_IMMUTABLE_BROWSER_IMAGE_AT_SHA256",
+    "scriptSha256": "REPLACE_WITH_EXACT_PREFLIGHT_SCRIPT_SHA256",
+    "sourceTreeSha256": null,
+    "path": [
+      "/usr/local/bin",
+      "/usr/bin",
+      "/bin"
+    ],
+    "requiredTools": [
+      "node"
+    ],
+    "resources": {
+      "cpus": 2,
+      "memory": "2G"
+    },
+    "network": "disabled",
+    "timeoutMs": 120000,
+    "runner": "REPLACE_WITH_BROWSER_RUNNER",
+    "viewports": [
+      {
+        "id": "fixture-desktop",
+        "width": 1280,
+        "height": 800,
+        "mobile": false,
+        "pointer": "fine"
+      }
+    ],
+    "oracles": [
+      "launch fixture",
+      "perform one action",
+      "observe state",
+      "collect console",
+      "save screenshot"
+    ],
+    "outputs": [
+      {
+        "kind": "evidence",
+        "path": "browser-preflight.log"
+      },
+      {
+        "kind": "artifact",
+        "path": "browser-preflight.png",
+        "viewportId": "fixture-desktop"
+      }
+    ],
+    "roleKey": "browser-preflight"
+  },
+  "browserSmokeOperation": {
+    "id": "browser-smoke",
+    "kind": "browser-smoke",
+    "command": "Run task-specific browser oracles against the packaged application",
+    "image": "REPLACE_WITH_IMMUTABLE_BROWSER_IMAGE_AT_SHA256",
+    "scriptSha256": "REPLACE_WITH_EXACT_BROWSER_SCRIPT_SHA256",
+    "sourceTreeSha256": null,
+    "path": [
+      "/usr/local/bin",
+      "/usr/bin",
+      "/bin"
+    ],
+    "requiredTools": [
+      "node"
+    ],
+    "resources": {
+      "cpus": 2,
+      "memory": "2G"
+    },
+    "network": "disabled",
+    "timeoutMs": 120000,
+    "runner": "REPLACE_WITH_BROWSER_RUNNER",
+    "viewports": [
+      {
+        "id": "desktop",
+        "width": 1280,
+        "height": 800,
+        "mobile": false,
+        "pointer": "fine"
+      },
+      {
+        "id": "phone-portrait",
+        "width": 390,
+        "height": 844,
+        "mobile": true,
+        "pointer": "coarse"
+      },
+      {
+        "id": "phone-landscape",
+        "width": 844,
+        "height": 390,
+        "mobile": true,
+        "pointer": "coarse"
+      },
+      {
+        "id": "tablet-portrait",
+        "width": 768,
+        "height": 1024,
+        "mobile": true,
+        "pointer": "coarse"
+      },
+      {
+        "id": "tablet-landscape",
+        "width": 1024,
+        "height": 768,
+        "mobile": true,
+        "pointer": "coarse"
+      }
+    ],
+    "preflightOperationId": "browser-preflight",
+    "oracles": [
+      "initial render and task-specific state observable",
+      "keyboard focus, single input, repeat input, and paused-state behavior",
+      "pointer single tap changes state exactly once",
+      "pointer long press repeats and release adds no synthetic click",
+      "pointercancel and lost capture stop repeat timers",
+      "concurrent pointers on one control stop independently with no orphan timer",
+      "desktop, phone portrait/landscape, and tablet portrait/landscape geometry",
+      "page exceptions, console errors, failed requests, and screenshots"
+    ],
+    "outputs": [
+      {
+        "kind": "evidence",
+        "path": "browser.log"
+      },
+      {
+        "kind": "artifact",
+        "path": "desktop.png",
+        "viewportId": "desktop"
+      },
+      {
+        "kind": "artifact",
+        "path": "phone-portrait.png",
+        "viewportId": "phone-portrait"
+      },
+      {
+        "kind": "artifact",
+        "path": "phone-landscape.png",
+        "viewportId": "phone-landscape"
+      },
+      {
+        "kind": "artifact",
+        "path": "tablet-portrait.png",
+        "viewportId": "tablet-portrait"
+      },
+      {
+        "kind": "artifact",
+        "path": "tablet-landscape.png",
+        "viewportId": "tablet-landscape"
+      }
+    ],
+    "roleKey": "browser-smoke"
+  },
+  "artifactConsumerOperation": {
+    "id": "artifact-smoke",
+    "kind": "native-exec",
+    "command": "Validate the exact producer artifact without rebuilding",
+    "image": "REPLACE_WITH_IMMUTABLE_IMAGE_AT_SHA256",
+    "scriptSha256": "REPLACE_WITH_EXACT_SCRIPT_SHA256",
+    "sourceTreeSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "path": [
+      "/usr/local/bin",
+      "/usr/bin",
+      "/bin"
+    ],
+    "requiredTools": [
+      "REPLACE_WITH_REQUIRED_TOOL"
+    ],
+    "resources": {
+      "cpus": 2,
+      "memory": "2G"
+    },
+    "network": "disabled",
+    "timeoutMs": 120000,
+    "oracles": [
+      "REPLACE_WITH_TASK_SPECIFIC_ORACLE"
+    ],
+    "outputs": [
+      {
+        "kind": "evidence",
+        "path": "artifact-smoke.log"
+      }
+    ],
+    "roleKey": "artifact-smoke",
+    "artifactInput": {
+      "schemaVersion": 1,
+      "operationId": "REPLACE_WITH_EARLIER_PRODUCER_OPERATION_ID",
+      "roleKey": "REPLACE_WITH_PRODUCER_ROLE_KEY",
+      "operationContractSha256": "REPLACE_WITH_PRODUCER_CONTRACT_SHA256",
+      "sourceTreeSha256": "REPLACE_WITH_PRODUCER_SOURCE_TREE_SHA256",
+      "image": "REPLACE_WITH_PRODUCER_IMMUTABLE_IMAGE_AT_SHA256",
+      "receiptSha256": "REPLACE_WITH_PRODUCER_RECEIPT_SHA256",
+      "evidenceBindingSha256": "REPLACE_WITH_PRODUCER_EVIDENCE_BINDING_SHA256",
+      "artifactTreeSha256": "REPLACE_WITH_MODE_AWARE_ARTIFACT_TREE_SHA256",
+      "rebuildPolicy": "forbidden"
+    }
+  }
+}

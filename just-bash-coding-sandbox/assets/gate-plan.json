@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "workflowId": "REPLACE_WITH_V5_WORKFLOW_ID",
+  "planSha256": "REPLACE_WITH_EXACT_V5_PLAN_SHA256",
+  "gates": [
+    {
+      "id": "format",
+      "operationId": "REPLACE_WITH_STRONG_OPERATION_ID",
+      "roleKey": "REPLACE_WITH_STABLE_ROLE_KEY",
+      "costClass": "cheap",
+      "orderExceptionReason": null,
+      "dependsOn": []
+    },
+    {
+      "id": "build",
+      "operationId": "REPLACE_WITH_STRONG_OPERATION_ID",
+      "roleKey": "REPLACE_WITH_STABLE_ROLE_KEY",
+      "costClass": "standard",
+      "orderExceptionReason": null,
+      "dependsOn": [
+        {
+          "gateId": "format",
+          "exceptionReason": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "version": 5,
+  "workflowId": "replace-with-stable-workflow-id",
+  "runtime": {"provider": "apple-container", "scope": "local-macos-only"},
+  "profile": "standard",
+  "intake": {
+    "schemaVersion": 1,
+    "phase": "change",
+    "workloadProfile": "library",
+    "interfaceMode": "none",
+    "repository": {"trust": "trusted-reviewed", "codeOrigin": "first-party"},
+    "requirements": {"privilege": "none", "processLifetime": "bounded-foreground", "hostSockets": [], "credentials": "none", "network": "none"}
+  },
+  "task": "Review and export the declared text candidate",
+  "workspace": {"root": "repository", "mode": "overlay-cow"},
+  "changeSet": {
+    "mutations": [
+      {"id": "edit-example", "type": "modify", "path": "path/to/expected-file", "beforeSha256": "0000000000000000000000000000000000000000000000000000000000000000"}
+    ],
+    "classes": ["source"],
+    "expectedReviewRequired": false
+  },
+  "candidateStage": {"name": "change-candidate", "mutationIds": ["edit-example"], "promotable": false},
+  "candidateExports": ["path/to/expected-file"],
+  "capabilities": {"network": {"enabled": false, "allowedUrlPrefixes": []}, "javascript": false, "python": false, "customCommands": []},
+  "limits": {"maxCommands": 200, "maxOutputBytes": 16777216, "maxFileSizeBytes": 10485760, "maxSourceEntries": 10000, "maxSourceBytes": 268435456, "maxMemoryBytes": 268435456, "timeoutMs": 120000},
+  "retryPolicy": {"maxAttemptsPerOperation": 2, "maxBatchRepairCycles": 1, "blindRetry": false},
+  "tierA": {"scriptSha256": "REPLACE_WITH_TIER_A_SCRIPT_SHA256"},
+  "completion": {"minStdoutBytes": 13, "requiredStdoutMarkers": ["TASK_COMPLETE"]},
+  "operations": [
+    {"kind": "text-edit", "command": "write the reviewed candidate post-image", "output": "path/to/expected-file"}
+  ],
+  "delivery": {"hostRuntime": {"required": false, "commands": []}, "interactive": {"required": false, "runner": "none", "command": "", "terminalType": "", "rows": 0, "columns": 0, "oracles": []}},
+  "escalation": {"required": false, "target": "none", "reason": ""}
+}
